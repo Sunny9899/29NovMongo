@@ -79,10 +79,10 @@ app.post("/jobs",async(req,res)=>{
 
 
 
-//GET
-app.get("/jobs/:City",async(req,res)=>{
+// 1  GET BY NAME and SKILL
+app.get("/jobs/name&skill",async(req,res)=>{
     try{
-       const jobs=await Job.find().lean().exec();
+       const jobs=await Job.find({$and:[{City:"California"},{Skill:"FrontEnd"}]}).lean().exec();
        return res.status(201).send(jobs);
     }
     catch(e){
@@ -90,6 +90,20 @@ app.get("/jobs/:City",async(req,res)=>{
     }
 })
 
+
+// 2 ALL WFH Jobs
+app.get("/jobs/wfh",async(req,res)=>{
+    try{
+       const jobs=await Job.find({WFH:{$eq:"Yes"}}).lean().exec();
+       return res.status(201).send(jobs);
+    }
+    catch(e){
+      return res.status(500).json({status:e.message});
+    }
+})
+
+
+// 3 ALL NOTICE PERIOD ACCEPTABLE JOBS
 
 
 
