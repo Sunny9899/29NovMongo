@@ -35,7 +35,7 @@ const jobSchema=new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"comp",
     required:true,
-    }
+    },
 },
 {
   versionKey:false,
@@ -51,9 +51,7 @@ const app=express();
 app.use(express.json());
 
 
-//COMPANY
-
-//POST
+//COMPANY POST
 app.post("/comps",async(req,res)=>{
     try{
        const comp=Comp.create(req.body);
@@ -67,9 +65,7 @@ app.post("/comps",async(req,res)=>{
 
 
 
-//JOBS
-
-//POST
+//JOBS POST
 app.post("/jobs",async(req,res)=>{
     try{
        const job=Job.create(req.body);
@@ -79,6 +75,21 @@ app.post("/jobs",async(req,res)=>{
       return res.status(500).json({status:e.message});
     }
 })
+
+
+
+
+//GET
+app.get("/jobs/:City",async(req,res)=>{
+    try{
+       const jobs=await Job.find().lean().exec();
+       return res.status(201).send(jobs);
+    }
+    catch(e){
+      return res.status(500).json({status:e.message});
+    }
+})
+
 
 
 
