@@ -80,9 +80,9 @@ app.post("/jobs",async(req,res)=>{
 
 
 // 1  GET BY NAME and SKILL
-app.get("/jobs/name&skill",async(req,res)=>{
+app.get("/jobs/:name/:skill",async(req,res)=>{
     try{
-       const jobs=await Job.find({$and:[{City:"California"},{Skill:"FrontEnd"}]}).lean().exec();
+       const jobs=await Job.find({$and:[{City:req.params.name},{Skill:req.params.skill}]}).lean().exec();
        return res.status(201).send(jobs);
     }
     catch(e){
@@ -138,10 +138,10 @@ app.get("/jobs/sortHL",async(req,res)=>{
 })
 
 
-// 5 DETAILS OF COMPANY
-app.get("/comps",async(req,res)=>{
+// 5 DETAILS OF COMPANY BY NAME
+app.get("/comps/:name",async(req,res)=>{
     try{
-       const comp=await Comp.find().lean().exec();
+       const comp=await Comp.find({comp_Name:req.params.name}).lean().exec();
        return res.status(201).send(comp);
     }
     catch(e){
